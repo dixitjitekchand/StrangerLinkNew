@@ -1,1 +1,0 @@
-tar -xzf strangerlink-project.tar.gz
