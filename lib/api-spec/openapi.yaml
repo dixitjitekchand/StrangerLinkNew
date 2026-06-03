@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: StrangerLink API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: stats
+    description: Live stats
+  - name: rooms
+    description: Chat rooms
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /stats:
+    get:
+      operationId: getStats
+      tags: [stats]
+      summary: Live stats
+      description: Returns current online user count and active room counts
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+  /rooms:
+    get:
+      operationId: listRooms
+      tags: [rooms]
+      summary: List chat rooms
+      description: Returns all available chat rooms with current user counts
+      responses:
+        "200":
+          description: Rooms list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Room"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    Stats:
+      type: object
+      properties:
+        onlineUsers:
+          type: integer
+        activePairs:
+          type: integer
+        waitingUsers:
+          type: integer
+        activeRooms:
+          type: integer
+      required:
+        - onlineUsers
+        - activePairs
+        - waitingUsers
+        - activeRooms
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        emoji:
+          type: string
+        description:
+          type: string
+        userCount:
+          type: integer
+      required:
+        - id
+        - name
+        - emoji
+        - description
+        - userCount
