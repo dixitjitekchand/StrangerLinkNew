@@ -4,11 +4,8 @@ services:
     runtime: node
     region: oregon
     plan: free
-    buildCommand: npm install -g pnpm@10 && pnpm install --frozen-lockfile && NODE_ENV=production BASE_PATH=/ pnpm --filter @workspace/strangerlink run build && pnpm --filter @workspace/api-server run build
+    buildCommand: npm install -g pnpm@10 && pnpm install --no-frozen-lockfile && NODE_ENV=production BASE_PATH=/ pnpm --filter @workspace/strangerlink run build && pnpm --filter @workspace/api-server run build
     startCommand: node --enable-source-maps artifacts/api-server/dist/index.mjs
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        generateValue: false
-        value: 10000
